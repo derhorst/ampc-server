@@ -1,1 +1,5 @@
-build 
+# build dir
+build
+
+# dolphin files
+.directory
