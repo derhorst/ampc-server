@@ -15,28 +15,13 @@
    Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
-#include <string.h>
+#ifndef __CONFIG_H__
+#define __CONFIG_H__
 
-#include "http_server.h"
-
-int callback_http(struct mg_connection *c)
-{
-    const struct embedded_file *req_file;
-
-    if(!strcmp(c->uri, "/"))
-        req_file = find_embedded_file("/index.html");
-    else
-        req_file = find_embedded_file(c->uri);
-
-    if(req_file)
-    {
-        mg_send_header(c, "Content-Type", req_file->mimetype);
-        mg_send_data(c, req_file->data, req_file->size);
-
-        return MG_TRUE;
-    }
-
-    mg_send_status(c, 404);
-    mg_printf_data(c, "Not Found");
-    return MG_TRUE;
-}
+#define AMPC_VERSION_MAJOR 0
+#define AMPC_VERSION_MINOR 1
+#define AMPC_VERSION_PATCH 0
+#define SRC_PATH "/home/horst/c/ampc-server/htdocs"
+#define WITH_MPD_HOST_CHANGE
+#define WITH_DYNAMIC_ASSETS
+#endif

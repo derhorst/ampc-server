@@ -1,0 +1,7 @@
+/home/horst/c/ampc-server/build/CMakeFiles/install/strip.dir
+/home/horst/c/ampc-server/build/CMakeFiles/edit_cache.dir
+/home/horst/c/ampc-server/build/CMakeFiles/ampc.dir
+/home/horst/c/ampc-server/build/CMakeFiles/rebuild_cache.dir
+/home/horst/c/ampc-server/build/CMakeFiles/list_install_components.dir
+/home/horst/c/ampc-server/build/CMakeFiles/install/local.dir
+/home/horst/c/ampc-server/build/CMakeFiles/install.dir

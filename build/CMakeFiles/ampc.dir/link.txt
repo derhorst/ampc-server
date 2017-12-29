@@ -1,0 +1,1 @@
+/usr/bin/cc -std=gnu99 -Wall  -rdynamic CMakeFiles/ampc.dir/src/ampc.c.o CMakeFiles/ampc.dir/src/mpd_client.c.o CMakeFiles/ampc.dir/src/mongoose.c.o CMakeFiles/ampc.dir/src/json_encode.c.o  -o ampc -lmpdclient -lpthread -lssl -lcrypto 

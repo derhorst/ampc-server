@@ -1,10 +1,10 @@
 cmake_minimum_required(VERSION 2.6)
 
-project (ympd)
+project (ampc)
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${PROJECT_SOURCE_DIR}/cmake/")
-set(CPACK_PACKAGE_VERSION_MAJOR "1")
-set(CPACK_PACKAGE_VERSION_MINOR "2")
-set(CPACK_PACKAGE_VERSION_PATCH "3")
+set(CPACK_PACKAGE_VERSION_MAJOR "0")
+set(CPACK_PACKAGE_VERSION_MINOR "1")
+set(CPACK_PACKAGE_VERSION_PATCH "0")
 if(CMAKE_BUILD_TYPE MATCHES RELEASE)
     set(ASSETS_PATH "${CMAKE_INSTALL_PREFIX}/share/${PROJECT_NAME}/htdocs")
 else()
@@ -12,7 +12,7 @@ else()
 endif()
 
 option(WITH_MPD_HOST_CHANGE "Let users of the web frontend change the MPD Host" ON)
-option(WITH_DYNAMIC_ASSETS "Serve assets dynamically (e.g for development/packaging)" OFF)
+option(WITH_DYNAMIC_ASSETS "Serve assets dynamically (e.g for development/packaging)" ON)
 option(WITH_IPV6 "enable IPv6 support" ON)
 option(WITH_SSL "enable SSL support" ON)
 
@@ -36,7 +36,7 @@ if(WITH_SSL)
     set_property(DIRECTORY APPEND PROPERTY COMPILE_DEFINITIONS NS_ENABLE_SSL)
 endif()
 
-file(GLOB RESOURCES 
+file(GLOB RESOURCES
     RELATIVE ${PROJECT_SOURCE_DIR}
     htdocs/js/*
     htdocs/assets/*
@@ -46,7 +46,7 @@ file(GLOB RESOURCES
 )
 
 set(SOURCES
-    src/ympd.c
+    src/ampc.c
     src/mpd_client.c
     src/mongoose.c
     src/json_encode.c
@@ -69,11 +69,11 @@ if(NOT WITH_DYNAMIC_ASSETS)
     list(APPEND SOURCES src/http_server.c assets.c)
 endif()
 
-add_executable(ympd ${SOURCES})
-target_link_libraries(ympd ${LIBMPDCLIENT_LIBRARY} ${CMAKE_THREAD_LIBS_INIT} ${OPENSSL_LIBRARIES})
+add_executable(ampc ${SOURCES})
+target_link_libraries(ampc ${LIBMPDCLIENT_LIBRARY} ${CMAKE_THREAD_LIBS_INIT} ${OPENSSL_LIBRARIES})
 
-install(TARGETS ympd DESTINATION bin)
-install(FILES ympd.1 DESTINATION ${CMAKE_INSTALL_PREFIX}/share/man/man1)
+install(TARGETS ampc DESTINATION bin)
+install(FILES ampc.1 DESTINATION ${CMAKE_INSTALL_PREFIX}/share/man/man1)
 if(WITH_DYNAMIC_ASSETS)
     install(DIRECTORY htdocs DESTINATION share/${PROJECT_NAME})
 endif()

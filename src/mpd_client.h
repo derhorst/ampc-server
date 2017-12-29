@@ -1,7 +1,6 @@
-/* ympd
-   (c) 2013-2014 Andrew Karpow <andy@ndyk.de>
-   This project's homepage is: http://www.ympd.org
-   
+/* ampc
+   Based on ympd (http://www.ympd.org), (c) 2013-2014 by Andrew Karpow <andy@ndyk.de>
+
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
    the Free Software Foundation; version 2 of the License.
@@ -15,7 +14,7 @@
    with this program; if not, write to the Free Software Foundation, Inc.,
    Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
-   
+
 #ifndef __MPD_CLIENT_H__
 #define __MPD_CLIENT_H__
 
@@ -64,7 +63,8 @@
     X(MPD_API_TOGGLE_CONSUME) \
     X(MPD_API_TOGGLE_SINGLE) \
     X(MPD_API_TOGGLE_CROSSFADE) \
-    X(MPD_API_TOGGLE_REPEAT)
+    X(MPD_API_TOGGLE_REPEAT) \
+    X(MPD_API_GET_ARTIST_ALBUMS)
 
 enum mpd_cmd_ids {
     MPD_CMDS(GEN_ENUM)
@@ -108,6 +108,6 @@ int mpd_put_current_song(char *buffer);
 int mpd_put_queue(char *buffer, unsigned int offset);
 int mpd_put_browse(char *buffer, char *path, unsigned int offset);
 int mpd_search(char *buffer, char *searchstr);
+int mpd_get_artist_albums(char *buffer, char *artist);
 void mpd_disconnect();
 #endif
-

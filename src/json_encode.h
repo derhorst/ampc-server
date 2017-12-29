@@ -1,7 +1,6 @@
-/* ympd
-   (c) 2013-2014 Andrew Karpow <andy@ndyk.de>
-   This project's homepage is: http://www.ympd.org
-   
+/* ampc
+   Based on ympd (http://www.ympd.org), (c) 2013-2014 by Andrew Karpow <andy@ndyk.de>
+
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
    the Free Software Foundation; version 2 of the License.
@@ -15,7 +14,7 @@
    with this program; if not, write to the Free Software Foundation, Inc.,
    Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
-   
+
 #ifndef __JSON_ENCODE_H__
 #define __JSON_ENCODE_H__
 
