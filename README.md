@@ -26,12 +26,15 @@ Run flags
 ```
 Usage: ./ampc [OPTION]...
 
- -h, --host <host>          connect to mpd at host [localhost]
- -p, --port <port>          connect to mpd at port [6600]
- -w, --webport [ip:]<port>  listen interface/port for webserver [8080]
- -u, --user <username>      drop priviliges to user after socket bind
- -V, --version              get version
- --help                     this help
+ -h, --host <host>           connect to mpd at host [localhost]
+ -p, --port <port>           connect to mpd at port [6600]
+ -d, --music-directory <dir> Used to look up cover-art. Covers have to be
+                             in the same folder as the song and named
+                             'folder.jpg' (embedded covers are not supported
+ -w, --webport [ip:]<port>   listen interface/port for webserver [8080]
+ -u, --user <username>       drop priviliges to user after socket bind
+ -V, --version               get version
+ --help                      this help
 ```
 
 SSL Support
