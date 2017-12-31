@@ -3,3 +3,5 @@ build
 
 # dolphin files
 .directory
+
+*.gch
