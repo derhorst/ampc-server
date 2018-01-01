@@ -586,6 +586,10 @@ int mpd_put_current_song(char *buffer)
     cur += json_emit_int(cur, end - cur, mpd_song_get_pos(song));
     cur += json_emit_raw_str(cur, end - cur, ",\"title\":");
     cur += json_emit_quoted_str(cur, end - cur, mpd_get_title(song));
+    cur += json_emit_raw_str(cur, end - cur, ",\"id\":");
+    cur += json_emit_int(cur, end - cur, mpd_song_get_id(song));
+    cur += json_emit_raw_str(cur, end - cur, ",\"duration\":");
+    cur += json_emit_int(cur, end - cur, mpd_song_get_duration(song));
 
     if(mpd_song_get_tag(song, MPD_TAG_TRACK, 0) != NULL)
     {
