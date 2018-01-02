@@ -273,6 +273,9 @@ out_save_queue:
 out_search:
             free(p_charbuf);
             break;
+        case MPD_API_GET_ALBUM_ARTISTS:
+            n = mpd_get_album_artists(mpd.buf);
+            break;
         case MPD_API_GET_ARTIST_ALBUMS:
                 p_charbuf = strdup(c->content);
                 if(strcmp(strtok(p_charbuf, ","), "MPD_API_GET_ARTIST_ALBUMS"))
@@ -707,6 +710,31 @@ int mpd_put_queue(char *buffer, unsigned int offset)
         mpd_entity_free(entity);
     }
 
+    /* remove last ',' */
+    cur--;
+
+    cur += json_emit_raw_str(cur, end - cur, "]}");
+    return cur - buffer;
+}
+
+int mpd_get_album_artists(char *buffer)
+{
+    char *cur = buffer;
+    const char *end = buffer + MAX_SIZE;
+    struct mpd_pair *pair;
+    mpd_search_db_tags(mpd.conn, MPD_TAG_ALBUM_ARTIST);
+    mpd_search_commit(mpd.conn);
+
+    cur += json_emit_raw_str(cur, end  - cur, "{\"type\":\"album_artists\",\"data\":[ ");
+    while ((pair = mpd_recv_pair_tag(mpd.conn,
+        MPD_TAG_ALBUM_ARTIST)) != NULL)
+        {
+          cur += json_emit_raw_str(cur, end - cur, "{\"album_artist\":");
+          cur += json_emit_quoted_str(cur, end - cur, pair->value);
+          cur += json_emit_raw_str(cur, end - cur, "},");
+          mpd_return_pair(mpd.conn, pair);
+        }
+    mpd_response_finish(mpd.conn);
     /* remove last ',' */
     cur--;
 
