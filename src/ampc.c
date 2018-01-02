@@ -185,7 +185,7 @@ int main(int argc, char **argv)
     }
 
     while (!force_exit) {
-        mg_poll_server(server, 200);
+        mg_poll_server(server, 100);
         current_timer = time(NULL);
         if(current_timer - last_timer)
         {

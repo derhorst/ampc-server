@@ -30,7 +30,7 @@
 } while(0)
 
 
-#define MAX_SIZE 1024 * 100
+#define MAX_SIZE 1024 * 5000
 #define MAX_ELEMENTS_PER_PAGE 512
 
 #define GEN_ENUM(X) X,
@@ -66,6 +66,7 @@
     X(MPD_API_TOGGLE_REPEAT) \
     X(MPD_API_GET_ALBUM_ARTISTS)\
     X(MPD_API_GET_ARTIST_ALBUMS)\
+    X(MPD_API_SEND_LIST_ALL_META)\
     X(MPD_API_ADD_ARTIST_ALBUM)
 
 enum mpd_cmd_ids {
@@ -112,5 +113,6 @@ int mpd_put_browse(char *buffer, char *path, unsigned int offset);
 int mpd_search(char *buffer, char *searchstr);
 int mpd_get_artist_albums(char *buffer, char *artist);
 int mpd_get_album_artists(char *buffer);
+int mpd_get_all_meta(char *buffer);
 void mpd_disconnect();
 #endif
