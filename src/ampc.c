@@ -73,6 +73,10 @@ int cache_file(struct mg_connection *c, char *cover, const char *uri, char *file
     return 1;
 }
 
+float timedifference_msec(struct timeval t0, struct timeval t1) {
+    return (t1.tv_sec - t0.tv_sec) * 1000.0f + (t1.tv_usec - t0.tv_usec) / 1000.0f;
+}
+
 
 void bye()
 {
@@ -192,7 +196,9 @@ int main(int argc, char **argv)
 {
     int n, option_index = 0;
     struct mg_server *server = mg_create_server(NULL, server_callback);
-    unsigned int current_timer = 0, last_timer = 0;
+    struct timeval t0;
+    struct timeval t1;
+    float last_poll;
     char *run_as_user = NULL;
     char const *error_msg = NULL;
     char *webport = "8080";
@@ -282,11 +288,13 @@ int main(int argc, char **argv)
 
     while (!force_exit) {
         mg_poll_server(server, 100);
-        current_timer = time(NULL);
-        if(current_timer - last_timer)
+
+        gettimeofday(&t1, 0);
+        last_poll = timedifference_msec(t0, t1);
+        if(last_poll > 250)
         {
-            last_timer = current_timer;
-            mpd_poll(server);
+          gettimeofday(&t0, 0);
+          mpd_poll(server);
         }
     }
 

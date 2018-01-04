@@ -213,14 +213,24 @@ out_play_track:
             mpd_send_clear(mpd.conn);
             mpd_response_finish(mpd.conn);
           }
-          mpd_search_add_db_songs(mpd.conn, true);
+
+          if (mpd_search_add_db_songs(mpd.conn, true) != 1) {
+              printf("Error mpd_search_add_db_songs\n");
+          } else {
+            printf("Search success\n");
+          }
 
           token = strsep(&str, ",");  // token == album_artist
           mpd_search_add_tag_constraint(mpd.conn, MPD_OPERATOR_DEFAULT, MPD_TAG_ALBUM_ARTIST, token);
           token = strsep(&str, ",");  // token == album
           mpd_search_add_tag_constraint(mpd.conn, MPD_OPERATOR_DEFAULT, MPD_TAG_ALBUM, token);
 
-          mpd_search_commit(mpd.conn);
+
+          if (mpd_search_commit(mpd.conn) != 1) {
+              printf("Error mpd_search_commit\n");
+          } else {
+            printf("Search success. %s\n", token);
+          }
           mpd_response_finish(mpd.conn);
 
           if(play == 1) {
