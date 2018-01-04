@@ -50,6 +50,48 @@ static inline enum mpd_cmd_ids get_cmd_id(char *cmd)
     return -1;
 }
 
+// count valid elements
+unsigned int elq(const char *s, char sep, char esc) {
+    unsigned int q, e;
+    const char *p;
+
+    for(e = 0, q = 1, p = s; *p; ++p) {
+        if(*p == esc)
+            e = !e;
+        else if(*p == sep)
+            q += !e;
+        else e = 0;
+    }
+    return q;
+}
+
+// tokenize
+char **tokenize(char *s, char sep, char esc, unsigned int *q) {
+    char* *list = NULL;
+    *q = elq(s, sep, esc);
+    list = malloc(*q * sizeof(char*));
+    if( list != NULL ) {
+        unsigned int e, i;
+        char *p;
+        i = 0;
+        list[i++] = s;
+        for(e=0, p=s; *p; ++p) {
+            if(*p == esc) {
+                e = !e;
+                memmove(p, p+1, strlen(p));
+            }
+            else if(*p == sep && !e) {
+                list[i++] = p+1;
+                *p = '\0';
+            }
+            else {
+              e = 0;
+            }
+        }
+    }
+    return list;
+}
+
 int callback_mpd(struct mg_connection *c)
 {
     enum mpd_cmd_ids cmd_id = get_cmd_id(c->content);
@@ -193,53 +235,43 @@ out_play_track:
 
           if((token = strtok(NULL, ",")) == NULL)
               goto out_add_artist_album;
-
+          /* call format: MPD_API_ADD_ARTIST_ALBUM,{play,enqueue},album_artist,album */
           free(p_charbuf);
           p_charbuf = strdup(c->content);
-
-          /* call format: MPD_API_ADD_ARTIST_ALBUM,{play,enqueue},album_artist,album */
-          /* clear playlist */
-          char *token, *str, *tofree;
+          char tok[256];
+          strncpy (tok, p_charbuf, sizeof(tok));
           int play;
-          tofree = str = strdup(p_charbuf);
+          unsigned int q;
+          char **list = tokenize(tok , ',', '^',  &q);
 
           /* search for exact album_artist + album in db */
-          token = strsep(&str, ",");  // token == MPD_API_ADD_PLAY_ARTIST_ALBUM
-          token = strsep(&str, ",");  // play or enqueue
-          if(strcmp(token, "play")) {
-            play = 0;
-          } else {
-            play = 1;
-            mpd_send_clear(mpd.conn);
-            mpd_response_finish(mpd.conn);
+          if(q > 2) {
+            if(strcmp(list[1], "play")) {
+              play = 0;
+            } else {
+              play = 1;
+              mpd_send_clear(mpd.conn);
+              mpd_response_finish(mpd.conn);
+            }
           }
 
           if (mpd_search_add_db_songs(mpd.conn, true) != 1) {
               printf("Error mpd_search_add_db_songs\n");
-          } else {
-            printf("Search success\n");
           }
 
-          token = strsep(&str, ",");  // token == album_artist
-          mpd_search_add_tag_constraint(mpd.conn, MPD_OPERATOR_DEFAULT, MPD_TAG_ALBUM_ARTIST, token);
-          token = strsep(&str, ",");  // token == album
-          mpd_search_add_tag_constraint(mpd.conn, MPD_OPERATOR_DEFAULT, MPD_TAG_ALBUM, token);
-
+          mpd_search_add_tag_constraint(mpd.conn, MPD_OPERATOR_DEFAULT, MPD_TAG_ALBUM_ARTIST, list[2]);
+          mpd_search_add_tag_constraint(mpd.conn, MPD_OPERATOR_DEFAULT, MPD_TAG_ALBUM, list[3]);
 
           if (mpd_search_commit(mpd.conn) != 1) {
               printf("Error mpd_search_commit\n");
-          } else {
-            printf("Search success. %s\n", token);
           }
           mpd_response_finish(mpd.conn);
 
           if(play == 1) {
             mpd_run_play_pos(mpd.conn, 0);
           }
-          free(tofree);
-
 out_add_artist_album:
-          free(p_charbuf);
+          free(list);
           break;
         case MPD_API_ADD_PLAYLIST:
             p_charbuf = strdup(c->content);
