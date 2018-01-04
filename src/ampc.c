@@ -150,7 +150,7 @@ static int server_callback(struct mg_connection *c, enum mg_event ev) {
               char * ext = strrchr(c->uri, '.');
               ext = strrchr(c->uri, '.');
               if (!ext) {
-                  printf("no extension found: %s\n", c->uri);
+                  // printf("no extension found: %s\n", c->uri);
               } else {
                   if (!strcmp(ext + 1, "mp3")) {
                     remove(concat(cachedir, "_extracted.jpg"));
@@ -245,9 +245,9 @@ int main(int argc, char **argv)
                 fprintf(stderr, "Usage: %s [OPTION]...\n\n"
                         " -h, --host <host>\t\tconnect to mpd at host [localhost]\n"
                         " -p, --port <port>\t\tconnect to mpd at port [6600]\n"
-                        " -d, --music-directory <dir>\tUsed to look up cover-art. Covers have to be\n"
-                                              "\t\t\t\tin the same folder as the song and named\n"
-                                              "\t\t\t\t'folder.jpg' (embedded covers are not supported)\n"
+                        " -d, --music-directory <dir>\tUsed to look up cover-art. Covers may be in\n"
+                                              "\t\t\t\tthe same folder as the song and named 'folder'\n"
+                                              "\t\t\t\tor 'cover' or embedded in the mp3 file\n"
                         " -w, --webport [ip:]<port>\tlisten interface/port for webserver [8080]\n"
                         " -u, --user <username>\t\tdrop priviliges to user after socket bind\n"
                         " -V, --version\t\t\tget version\n"

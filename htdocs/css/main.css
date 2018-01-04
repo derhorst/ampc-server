@@ -29,9 +29,22 @@ body {
 
 body {
   font-family: Roboto,Helvetica Neue,sans-serif;
+  color: #fff;
   font-size: 16px;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+h2 {
+  font-size: 1.5em;
+  max-height: 2.2em;
+  font-weight: 300;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+.hidden {
+  display: none;
 }
 
 p {
@@ -53,15 +66,7 @@ li {
 }
 
 input {
-  border: 1px solid #106cc8;
   outline: none;
-  padding: 8px;
-}
-
-button,
-input {
-  font-size: 14px;
-  height: 40px;
 }
 
 button {
@@ -70,6 +75,8 @@ button {
   color: hsla(0,0%,100%,.87);
   cursor: pointer;
   display: inline-block;
+  font-size: 14px;
+  height: 40px;
   padding: 8px 18px;
   text-decoration: none;
 }

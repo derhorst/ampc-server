@@ -28,9 +28,9 @@ Usage: ./ampc [OPTION]...
 
  -h, --host <host>           connect to mpd at host [localhost]
  -p, --port <port>           connect to mpd at port [6600]
- -d, --music-directory <dir> Used to look up cover-art. Covers have to be
-                             in the same folder as the song and named
-                             'folder.jpg' (embedded covers are not supported
+ -d, --music-directory <dir> Used to look up cover-art. Covers may be in
+                             the same folder as the song and named
+                             'folder' or 'cover' or embedded in the mp3 file
  -w, --webport [ip:]<port>   listen interface/port for webserver [8080]
  -u, --user <username>       drop priviliges to user after socket bind
  -V, --version               get version
@@ -46,7 +46,7 @@ To run ampc with SSL support:
 # openssl req -x509 -newkey rsa:2048 -keyout key.pem -out cert.pem -days 1000 -nodes
 # cat key.pem cert.pem > ssl.pem
 ```
-- tell ampc to use a webport using SSL and where to find the certificate: 
+- tell ampc to use a webport using SSL and where to find the certificate:
 ```
 # ./ampc -w "ssl://8081:/path/to/ssl.pem"
 ```

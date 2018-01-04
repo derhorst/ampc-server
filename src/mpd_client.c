@@ -180,7 +180,7 @@ out_add_track:
 
             free(p_charbuf);
             p_charbuf = strdup(c->content);
-            int_buf = mpd_run_add(mpd.conn, get_arg1(p_charbuf));
+            int_buf = mpd_run_add_id(mpd.conn, get_arg1(p_charbuf));
             if(int_buf != -1)
                 mpd_run_play_id(mpd.conn, int_buf);
 out_play_track:
@@ -760,14 +760,10 @@ int mpd_get_all_meta(char *buffer) {
       if(mpd_entity_get_type(entity) == MPD_ENTITY_TYPE_SONG) {
           song = mpd_entity_get_song(entity);
 
-          cur += json_emit_raw_str(cur, end - cur, "{\"id\":");
-          cur += json_emit_int(cur, end - cur, mpd_song_get_id(song));
-          cur += json_emit_raw_str(cur, end - cur, ",\"pos\":");
-          cur += json_emit_int(cur, end - cur, mpd_song_get_pos(song));
+          cur += json_emit_raw_str(cur, end - cur, "{\"title\":");
+          cur += json_emit_quoted_str(cur, end - cur, mpd_get_title(song));
           cur += json_emit_raw_str(cur, end - cur, ",\"duration\":");
           cur += json_emit_int(cur, end - cur, mpd_song_get_duration(song));
-          cur += json_emit_raw_str(cur, end - cur, ",\"title\":");
-          cur += json_emit_quoted_str(cur, end - cur, mpd_get_title(song));
 
           if(mpd_song_get_tag(song, MPD_TAG_TRACK, 0) != NULL)
           {
