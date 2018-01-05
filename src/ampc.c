@@ -251,7 +251,7 @@ int main(int argc, char **argv)
                 fprintf(stderr, "Usage: %s [OPTION]...\n\n"
                         " -h, --host <host>\t\tconnect to mpd at host [localhost]\n"
                         " -p, --port <port>\t\tconnect to mpd at port [6600]\n"
-                        " -d, --music-directory <dir>\tUsed to look up cover-art. Covers may be in\n"
+                        " -d, --music-directory <dir>\tUsed to look up cover-art. Covers must be in\n"
                                               "\t\t\t\tthe same folder as the song and named 'folder'\n"
                                               "\t\t\t\tor 'cover' or embedded in the mp3 file\n"
                         " -w, --webport [ip:]<port>\tlisten interface/port for webserver [8080]\n"

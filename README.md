@@ -12,6 +12,10 @@ Dependencies
  - libmpdclient 2: http://www.musicpd.org/libs/libmpdclient/
  - cmake 2.6: http://cmake.org/
 
+to convert and extract covers:
+- imagemagick https://www.imagemagick.org
+- ffmpeg https://www.ffmpeg.org/
+
 Unix Build Instructions
 -----------------------
 
@@ -28,7 +32,7 @@ Usage: ./ampc [OPTION]...
 
  -h, --host <host>           connect to mpd at host [localhost]
  -p, --port <port>           connect to mpd at port [6600]
- -d, --music-directory <dir> Used to look up cover-art. Covers may be in
+ -d, --music-directory <dir> Used to look up cover-art. Covers must be in
                              the same folder as the song and named
                              'folder' or 'cover' or embedded in the mp3 file
  -w, --webport [ip:]<port>   listen interface/port for webserver [8080]

@@ -66,13 +66,13 @@
     }
   ],
   "hashTable": {
-    "/index.html": "6953e4ece243029ed39dc082d6a12dcb7f51db7d",
+    "/index.html": "03702e765e34f7aa647f8d19a8233a772e505c52",
     "/ngsw-worker.js": "a134e7c3df5ea6461d7419d4d56c61c9e076d5d2",
     "/css/main.css": "6a185fac59760841baa0ba5dea94f34cff44c3e7",
-    "/js/app.js": "1c50c45978b6d5bff0fee4edbd7fa4cfd3d4fc67",
+    "/js/app.js": "3c2fb72272049980ab25547b2c8a1860792fbc1d",
     "/js/shims.js": "5bc1334c61442a131916545cb483bd4b747edc12",
-    "/assets/favicon/favicon-DEV.ico": "aa4fb0706ed367fb5c2fd6bd2b058c0dce8cc785",
-    "/assets/favicon/favicon-PROD.ico": "5d40a29d26398292f08a46b26f6788ec60f5f43e",
+    "/assets/favicon/favicon-DEV.ico": "25c53575c7e16a6cf510507e0b03f9193874f96f",
+    "/assets/favicon/favicon-PROD.ico": "25c53575c7e16a6cf510507e0b03f9193874f96f",
     "/assets/jpg/placeholder.jpg": "4cee99de79a8b1b9535dcb1fbb4022f2f3c5d62c",
     "/assets/svg/album-track.svg": "385e18a5d2d21ea2535e747a29dcef67b890d066",
     "/assets/svg/consume.svg": "03a97e0fbcb30c98aeb3b47ac0565cf387ce636b",

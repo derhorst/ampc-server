@@ -23,7 +23,7 @@ int callback_http(struct mg_connection *c)
 {
     const struct embedded_file *req_file;
 
-    if(!strcmp(c->uri, "/") || !strncmp("/library/", c->uri, strlen("/library/")) || !strcmp(c->uri, "/playlists")
+    if(!strcmp(c->uri, "/") || !strncmp("/library", c->uri, strlen("/library")) || !strcmp(c->uri, "/playlists")
     || !strcmp(c->uri, "/settings") || !strcmp(c->uri, "/browse") || !strcmp(c->uri, "/search"))
         req_file = find_embedded_file("/index.html");
     else
