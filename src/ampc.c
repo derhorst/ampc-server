@@ -96,6 +96,7 @@ static int server_callback(struct mg_connection *c, enum mg_event ev) {
               if (!(0 == access(cachedir, 0))) {
                   struct stat st = {0};
                   if (stat(concat(homedir, "/.cache/ampc/250"), &st) == -1) {
+                      mkdir(concat(homedir, "/.cache"), 0700);
                       mkdir(concat(homedir, "/.cache/ampc"), 0700);
                       mkdir(cachedir, 0700);
                   }

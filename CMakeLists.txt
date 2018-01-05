@@ -12,7 +12,7 @@ else()
 endif()
 
 option(WITH_MPD_HOST_CHANGE "Let users of the web frontend change the MPD Host" ON)
-option(WITH_DYNAMIC_ASSETS "Serve assets dynamically (e.g for development/packaging)" ON)
+option(WITH_DYNAMIC_ASSETS "Serve assets dynamically (e.g for development/packaging)" OFF)
 option(WITH_IPV6 "enable IPv6 support" ON)
 option(WITH_SSL "enable SSL support" ON)
 
@@ -39,9 +39,11 @@ endif()
 file(GLOB RESOURCES
     RELATIVE ${PROJECT_SOURCE_DIR}
     htdocs/js/*
-    htdocs/assets/*
+    htdocs/assets/svg/*
+    htdocs/assets/favicon/*.ico
+    htdocs/assets/jpg/*
     htdocs/css/*.css
-    htdocs/fonts/*
+#    htdocs/fonts/*
     htdocs/index.html
 )
 

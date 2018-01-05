@@ -50,6 +50,10 @@ static const char* get_mime(char* filename)
         return "image/svg+xml";
     if(!strcmp(extension, ".html"))
         return "text/html";
+    if(!strcmp(extension, ".json"))
+        return "text/plain";
+    if(!strcmp(extension, ".jpg"))
+        return "image/jpeg";
     return "text/plain";
 }
 
@@ -68,7 +72,7 @@ int main(int argc, char *argv[])
             err(EXIT_FAILURE, "%s", argv[i]);
 
         printf("static const unsigned char v%d[] = {", i);
-        
+
 	j = 0;
         while((buf = fgetc(fd)) != EOF)
         {
@@ -85,7 +89,7 @@ int main(int argc, char *argv[])
 
     for(i = 1; i < argc; i++)
     {
-        printf("  {\"%s\", v%d, \"%s\", sizeof(v%d) - 1}, \n", 
+        printf("  {\"%s\", v%d, \"%s\", sizeof(v%d) - 1}, \n",
             argv[i]+6, i, get_mime(argv[i]), i);
     }
 
