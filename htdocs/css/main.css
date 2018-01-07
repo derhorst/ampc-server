@@ -19,6 +19,7 @@ body {
   -webkit-flex-direction: column;
   -ms-flex-direction: column;
   flex-direction: column;
+  height: 100vh;
 }
 
 *,
@@ -35,12 +36,144 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+::-webkit-scrollbar {
+  width: 10px;
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: hsla(0,0%,100%,.2);
+}
+
+.content {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  overflow-y: hidden;
+  top: 0;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+.content.controls-visible {
+  grid-template-rows: 1fr 2fr 4em;
+}
+
+.main-content {
+  grid-row: auto/span 2;
+  padding-left: .5em;
+  overflow: hidden;
+}
+
+.current {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  grid-gap: 12px;
+}
+
+.current>.cover {
+  padding: 2em;
+}
+
+.queue {
+  padding-left: 2em;
+}
+
+.queue-content {
+  overflow: hidden;
+  padding-right: .5em;
+}
+
+.ctrl {
+  height: 4em;
+  width: 100%;
+  display: grid;
+  grid-column: auto/span 2;
+  grid-template-columns: 1fr 9em 1fr;
+  grid-template-row: 1fr 3fr;
+  background-color: rgba(0,0,0,.6);
+}
+
+.progress {
+  grid-column: auto/span 3;
+}
+
+.ctrl-top {
+  height: 4em;
+  width: 100%;
+  display: none;
+  background-color: rgba(0,0,0,.6);
+}
+
+.controls-center>div:hover,
+.controls-left>div:hover,
+.controls-right>div:hover {
+  cursor: pointer;
+  fill: #fff;
+  fill-opacity: 1;
+}
+
+.view-controls-top>.controls-left {
+  -webkit-justify-content: space-around!important;
+  -ms-flex-pack: distribute!important;
+  justify-content: space-around!important;
+}
+
+.controls-left {
+  -webkit-justify-content: flex-start;
+  -ms-flex-pack: start;
+  justify-content: flex-start;
+  margin-left: 1em;
+}
+
+.controls-left,
+.controls-right {
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  width: 100%;
+}
+
+.controls-right {
+  -webkit-justify-content: flex-end;
+  -ms-flex-pack: end;
+  justify-content: flex-end;
+}
+
+.play-controls,
+.state-controls,
+.view-controls {
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  width: 100%;
+  margin-top: .5em;
+}
+
+.queue-view {
+  height: 100%;
+  width: 100%;
+  position: inherit;
+  overflow: hidden;
+}
+
+h1 {
+  color: #fff;
+  font-size: 2.5em;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+h1,
 h2 {
-  font-size: 1.5em;
   max-height: 2.2em;
   font-weight: 300;
   letter-spacing: 2px;
   text-transform: uppercase;
+}
+
+h2 {
+  font-size: 1.5em;
 }
 
 .hidden {
@@ -83,4 +216,39 @@ button {
 
 button:hover {
   background-color: #28739e;
+}
+
+@media (max-width:60em) {
+  .content.controls-visible {
+    grid-template-columns: 1fr;
+    grid-template-rows: 4em 1fr 4em;
+    overflow: hidden;
+  }
+
+  .current,
+  .queue-content,
+  .state-controls-bottom,
+  .view-controls-bottom {
+    display: none;
+  }
+
+  .ctrl {
+    grid-column: auto;
+  }
+
+  .ctrl-top {
+    display: grid;
+  }
+
+  .box {
+    padding: .5em;
+  }
+
+  h1 {
+    font-size: 1.1em!important;
+  }
+
+  h2 {
+    font-size: 1em!important;
+  }
 }
