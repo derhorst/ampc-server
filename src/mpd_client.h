@@ -65,7 +65,6 @@
     X(MPD_API_TOGGLE_CROSSFADE) \
     X(MPD_API_TOGGLE_REPEAT) \
     X(MPD_API_GET_ALBUM_ARTISTS)\
-    X(MPD_API_GET_ARTIST_ALBUMS)\
     X(MPD_API_SEND_LIST_ALL_META)\
     X(MPD_SEND_LIST_PLAYLISTS)\
     X(MPD_SEND_LIST_PLAYLIST_META)\
@@ -113,7 +112,6 @@ int mpd_put_current_song(char *buffer);
 int mpd_put_queue(char *buffer, unsigned int offset);
 int mpd_put_browse(char *buffer, char *path, unsigned int offset);
 int mpd_search(char *buffer, char *searchstr);
-int mpd_get_artist_albums(char *buffer, char *artist);
 int mpd_get_album_artists(char *buffer);
 int mpd_get_all_meta(char *buffer);
 int mpd_list_playlists(char *buffer);

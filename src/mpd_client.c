@@ -321,20 +321,6 @@ out_search:
         case MPD_API_SEND_LIST_ALL_META:
             n = mpd_get_all_meta(mpd.buf);
             break;
-        case MPD_API_GET_ARTIST_ALBUMS:
-                p_charbuf = strdup(c->content);
-                if(strcmp(strtok(p_charbuf, ","), "MPD_API_GET_ARTIST_ALBUMS"))
-        goto out_artist_albums;
-
-                if((token = strtok(NULL, ",")) == NULL)
-                    goto out_artist_albums;
-
-                free(p_charbuf);
-                p_charbuf = strdup(c->content);
-                n = mpd_get_artist_albums(mpd.buf, get_arg1(p_charbuf));
-    out_artist_albums:
-                free(p_charbuf);
-                break;
         case MPD_SEND_LIST_PLAYLISTS:
                 p_charbuf = strdup(c->content);
                 if(strcmp(p_charbuf, "MPD_SEND_LIST_PLAYLISTS"))
@@ -875,90 +861,6 @@ int mpd_get_all_meta(char *buffer) {
         }
         mpd_entity_free(entity);
         }
-
-    /* remove last ',' */
-    cur--;
-
-    cur += json_emit_raw_str(cur, end - cur, "]}");
-    return cur - buffer;
-}
-
-//TODO: write a better query
-int mpd_get_artist_albums(char *buffer, char *artist)
-{
-    char *cur = buffer;
-    const char *end = buffer + MAX_SIZE;
-    struct mpd_entity *entity;
-
-    // struct mpd_song *current_song = mpd_run_current_song(mpd.conn);
-
-    mpd_search_db_songs(mpd.conn, true);
-    mpd_search_add_tag_constraint(mpd.conn, MPD_OPERATOR_DEFAULT, MPD_TAG_ALBUM_ARTIST, artist);
-    mpd_search_add_tag_constraint(mpd.conn, MPD_OPERATOR_DEFAULT, MPD_TAG_TRACK, "1");
-    mpd_search_commit(mpd.conn);
-
-    cur += json_emit_raw_str(cur, end  - cur, "{\"type\":\"artist_albums\",\"data\":[ ");
-
-    while((entity = mpd_recv_entity(mpd.conn)) != NULL) {
-        const struct mpd_song *song;
-
-        if(mpd_entity_get_type(entity) == MPD_ENTITY_TYPE_SONG) {
-            song = mpd_entity_get_song(entity);
-
-            cur += json_emit_raw_str(cur, end - cur, "{\"id\":");
-            cur += json_emit_int(cur, end - cur, mpd_song_get_id(song));
-            cur += json_emit_raw_str(cur, end - cur, ",\"pos\":");
-            cur += json_emit_int(cur, end - cur, mpd_song_get_pos(song));
-            cur += json_emit_raw_str(cur, end - cur, ",\"duration\":");
-            cur += json_emit_int(cur, end - cur, mpd_song_get_duration(song));
-            cur += json_emit_raw_str(cur, end - cur, ",\"title\":");
-            cur += json_emit_quoted_str(cur, end - cur, mpd_get_title(song));
-
-            if(mpd_song_get_tag(song, MPD_TAG_TRACK, 0) != NULL)
-            {
-                cur += json_emit_raw_str(cur, end - cur, ",\"track\":");
-                cur += json_emit_quoted_str(cur, end - cur, mpd_song_get_tag(song, MPD_TAG_TRACK, 0));
-            }
-
-            if(mpd_song_get_tag(song, MPD_TAG_ARTIST, 0) != NULL)
-            {
-                cur += json_emit_raw_str(cur, end - cur, ",\"artist\":");
-                cur += json_emit_quoted_str(cur, end - cur, mpd_song_get_tag(song, MPD_TAG_ARTIST, 0));
-            }
-
-            if(mpd_song_get_tag(song, MPD_TAG_ALBUM, 0) != NULL)
-            {
-                cur += json_emit_raw_str(cur, end - cur, ",\"album\":");
-                cur += json_emit_quoted_str(cur, end - cur, mpd_song_get_tag(song, MPD_TAG_ALBUM, 0));
-            }
-
-            if(mpd_song_get_tag(song, MPD_TAG_ALBUM_ARTIST, 0) != NULL)
-            {
-                cur += json_emit_raw_str(cur, end - cur, ",\"album_artist\":");
-                cur += json_emit_quoted_str(cur, end - cur, mpd_song_get_tag(song, MPD_TAG_ALBUM_ARTIST, 0));
-            }
-            else if(mpd_song_get_tag(song, MPD_TAG_ALBUM, 0) != NULL)
-            {
-                cur += json_emit_raw_str(cur, end - cur, ",\"album_artist\":");
-                cur += json_emit_quoted_str(cur, end - cur, mpd_song_get_tag(song, MPD_TAG_ALBUM, 0));
-            }
-
-            // if(mpd_song_get_tag(song, MPD_TAG_ORIGINAL_DATE, 0) != NULL)
-            // {
-            //     cur += json_emit_raw_str(cur, end - cur, ",\"date\":");
-            //     cur += json_emit_quoted_str(cur, end - cur, mpd_song_get_tag(song, MPD_TAG_ORIGINAL_DATE, 0));
-            // } else
-            if(mpd_song_get_tag(song, MPD_TAG_DATE, 0) != NULL) {
-                cur += json_emit_raw_str(cur, end - cur, ",\"date\":");
-                cur += json_emit_quoted_str(cur, end - cur, mpd_song_get_tag(song, MPD_TAG_DATE, 0));
-            }
-
-            cur += json_emit_raw_str(cur, end - cur, ",\"file\":");
-            cur += json_emit_quoted_str(cur, end - cur, mpd_song_get_filename(song));
-            cur += json_emit_raw_str(cur, end - cur, "},");
-        }
-        mpd_entity_free(entity);
-    }
 
     /* remove last ',' */
     cur--;
