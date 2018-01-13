@@ -1,3 +1,28 @@
+.gu-mirror {
+  position: fixed!important;
+  margin: 0!important;
+  z-index: 9999!important;
+  opacity: .8;
+  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=80)";
+  filter: alpha(opacity=80);
+}
+
+.gu-hide {
+  display: none!important;
+}
+
+.gu-unselectable {
+  -webkit-user-select: none!important;
+  -moz-user-select: none!important;
+  -ms-user-select: none!important;
+  user-select: none!important;
+}
+
+.gu-transit {
+  opacity: .2;
+  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=20)";
+  filter: alpha(opacity=20);
+}
 body,
 div,
 html {
@@ -218,6 +243,14 @@ button:hover {
   background-color: #28739e;
 }
 
+.disable-text-selection {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
 @media (max-width:60em) {
   .content.controls-visible {
     grid-template-columns: 1fr;
@@ -230,6 +263,10 @@ button:hover {
   .state-controls-bottom,
   .view-controls-bottom {
     display: none;
+  }
+
+  .queue-content.home-view {
+    display: block!important;
   }
 
   .ctrl {

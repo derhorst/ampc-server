@@ -130,10 +130,18 @@ int callback_mpd(struct mg_connection *c)
         case MPD_API_RM_ALL:
             mpd_run_clear(mpd.conn);
             break;
-        case MPD_API_RM_TRACK:
-            if(sscanf(c->content, "MPD_API_RM_TRACK,%u", &uint_buf))
-                mpd_run_delete_id(mpd.conn, uint_buf);
+        case MPD_API_RM_TRACK_ID:
+            if(sscanf(c->content, "MPD_API_RM_TRACK_ID,%u", &uint_buf))
+            mpd_run_delete_id(mpd.conn, uint_buf);
             break;
+        case MPD_API_RM_TRACK_POS:
+          if(sscanf(c->content, "MPD_API_RM_TRACK_POS,%u", &uint_buf))
+              mpd_run_delete(mpd.conn, uint_buf);
+          break;
+        case MPD_API_MOVE_TRACK_POS:
+          if(sscanf(c->content, "MPD_API_MOVE_TRACK_POS,%u,%u", &uint_buf, &uint_buf_2))
+              mpd_send_move(mpd.conn, uint_buf, uint_buf_2);
+          break;
         case MPD_API_PLAY_TRACK:
             if(sscanf(c->content, "MPD_API_PLAY_TRACK,%u", &uint_buf))
                 mpd_run_play_id(mpd.conn, uint_buf);
