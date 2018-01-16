@@ -206,6 +206,21 @@ int callback_mpd(struct mg_connection *c)
 out_browse:
         free(p_charbuf);
             break;
+        case MPD_API_ADD_TRACK_TO:
+            p_charbuf = strdup(c->content);
+            if(strcmp(strtok(p_charbuf, ","), "MPD_API_ADD_TRACK_TO"))
+                goto out_add_track_to;
+
+            uint_buf = strtoul(strtok(NULL, ","), NULL, 10);
+            if((token = strtok(NULL, ",")) == NULL)
+                goto out_add_track_to;
+
+            free(p_charbuf);
+            p_charbuf = strdup(c->content);
+            mpd_send_add_id_to(mpd.conn, get_arg2(p_charbuf), uint_buf);
+out_add_track_to:
+            free(p_charbuf);
+            break;
         case MPD_API_ADD_TRACK:
             p_charbuf = strdup(c->content);
             if(strcmp(strtok(p_charbuf, ","), "MPD_API_ADD_TRACK"))
