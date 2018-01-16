@@ -54,6 +54,8 @@ static const char* get_mime(char* filename)
         return "text/plain";
     if(!strcmp(extension, ".jpg"))
         return "image/jpeg";
+    if(!strcmp(extension, ".png"))
+        return "image/png";
     return "text/plain";
 }
 

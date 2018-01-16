@@ -42,6 +42,7 @@ file(GLOB RESOURCES
     htdocs/assets/svg/*
     htdocs/assets/favicon/*.ico
     htdocs/assets/jpg/*
+    htdocs/assets/png/*
     htdocs/css/*.css
 #    htdocs/fonts/*
     htdocs/index.html

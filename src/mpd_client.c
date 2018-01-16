@@ -310,6 +310,22 @@ out_add_artist_album:
 out_playlist:
             free(p_charbuf);
             break;
+        case MPD_API_PLAY_PLAYLIST:
+            p_charbuf = strdup(c->content);
+            if(strcmp(strtok(p_charbuf, ","), "MPD_API_PLAY_PLAYLIST"))
+                goto out_play_playlist;
+
+            if((token = strtok(NULL, ",")) == NULL)
+                goto out_play_playlist;
+
+            free(p_charbuf);
+            p_charbuf = strdup(c->content);
+            mpd_run_clear(mpd.conn);
+            mpd_run_load(mpd.conn, get_arg1(p_charbuf));
+            mpd_run_play_pos(mpd.conn, 0);
+out_play_playlist:
+            free(p_charbuf);
+            break;
         case MPD_API_SAVE_QUEUE:
             p_charbuf = strdup(c->content);
             if(strcmp(strtok(p_charbuf, ","), "MPD_API_SAVE_QUEUE"))
