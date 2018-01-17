@@ -238,17 +238,33 @@ out_add_track:
         case MPD_API_ADD_PLAY_TRACK:
             p_charbuf = strdup(c->content);
             if(strcmp(strtok(p_charbuf, ","), "MPD_API_ADD_PLAY_TRACK"))
-                goto out_play_track;
+                goto out_play_track_id;
 
             if((token = strtok(NULL, ",")) == NULL)
-                goto out_play_track;
+                goto out_play_track_id;
 
             free(p_charbuf);
             p_charbuf = strdup(c->content);
             int_buf = mpd_run_add_id(mpd.conn, get_arg1(p_charbuf));
             if(int_buf != -1)
                 mpd_run_play_id(mpd.conn, int_buf);
-out_play_track:
+out_play_track_id:
+            free(p_charbuf);
+            break;
+        case MPD_API_ADD_PLAY:
+            p_charbuf = strdup(c->content);
+            if(strcmp(strtok(p_charbuf, ","), "MPD_API_ADD_PLAY"))
+                goto out_add_play;
+
+            if((token = strtok(NULL, ",")) == NULL)
+                goto out_add_play;
+
+            mpd_run_clear(mpd.conn);
+            free(p_charbuf);
+            p_charbuf = strdup(c->content);
+            mpd_run_add(mpd.conn, get_arg1(p_charbuf));
+            mpd_run_play_pos(mpd.conn, 0);
+out_add_play:
             free(p_charbuf);
             break;
       case MPD_API_ADD_ARTIST_ALBUM:
@@ -273,8 +289,7 @@ out_play_track:
               play = 0;
             } else {
               play = 1;
-              mpd_send_clear(mpd.conn);
-              mpd_response_finish(mpd.conn);
+              mpd_run_clear(mpd.conn);
             }
           }
 
@@ -1020,7 +1035,9 @@ int mpd_put_browse(char *buffer, char *path, unsigned int offset)
     if (!mpd_send_list_meta(mpd.conn, path))
         RETURN_ERROR_AND_RECOVER("mpd_send_list_meta");
 
-    cur += json_emit_raw_str(cur, end  - cur, "{\"type\":\"browse\",\"data\":[ ");
+    cur += json_emit_raw_str(cur, end  - cur, "{\"type\":\"browse\",\"path\":");
+    cur += json_emit_quoted_str(cur, end - cur, path);
+    cur += json_emit_raw_str(cur, end  - cur, ",\"data\":[ ");
 
     while((entity = mpd_recv_entity(mpd.conn)) != NULL) {
         const struct mpd_song *song;
